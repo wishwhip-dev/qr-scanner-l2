@@ -5,8 +5,8 @@
  * change here reaches every one of them. Keep `name` short and `description` one plain sentence.
  */
 export const identity = {
-  name: "QR code scanner",
-  description: "A QR code scanner.",
+  name: "QR Scanner",
+  description: "Read QR codes with your camera and keep a history of what you scanned, on this device.",
   accent: "#0e7490",
   initial: "Q",
 } as const;

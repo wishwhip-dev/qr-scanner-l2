@@ -1,0 +1,20 @@
+# Plan
+
+Goal: A QR code scanner. I press a button to open my camera, point it at a QR code, and the decoded text appears below the preview with a copy button; keep a history of the last 20 scans that survives a reload.
+
+1. The home page shows a visible, enabled 'Scan QR code' button; pressing it opens the live camera preview on the page (through the shipped CameraView), and a 'Stop camera' button closes it and releases the camera.
+2. While the preview is open, holding a QR code in view decodes it within a couple of seconds: the decoded text appears below the preview as a selectable text block, and a sound-free visual confirmation shows that a new scan was captured. Scanning continues, so a second, different code can be scanned without closing and reopening the camera, and holding a single code in frame does not add the same text to the history over and over — an identical consecutive read is recorded only once until a different code is scanned.
+3. Beside the decoded text there is a 'Copy' button that copies it to the clipboard and shows a confirmation (a toast or a 'Copied' label), and a Share button that offers to share the decoded text or copy it where the device has no share sheet.
+4. If the decoded text is a URL (starts with http:// or https://), it is rendered as a clickable link that opens in a new tab, while the Copy button still copies the raw text; non-URL text stays plain text.
+5. Each successful scan is saved through the app's data layer in the existing Dexie database with its decoded text and the time it was scanned; after scanning a code, reloading the page still shows that scan in the history — nothing is lost on reload.
+6. A 'Recent scans' list on the home page shows the last 20 scans, newest first, each row displaying the decoded text and the time it was scanned; text longer than roughly 80 characters is truncated in the row and tapping the row expands it to show the full text. Before any scan exists it shows an explicit 'No scans yet' empty state instead of an empty box.
+7. The history never exceeds 20 entries: scanning a 21st code after 20 exist drops the oldest, so the list always holds at most 20.
+8. Every history row has its own Copy button and a Delete button labelled 'Delete', and a 'Clear history' control at the top of the list removes all entries; both destructive controls say what they destroy in their labels.
+9. If the camera is refused, missing or unavailable, the preview area shows a plain-text message saying so and the rest of the page — including the history and its copy and delete actions — remains usable.
+10. As a second way in, a 'Decode from image' file control (through the shipped FileDrop) accepts a photo or screenshot of a QR code and, once chosen, the decoded text appears in the same result area with the same Copy button, or a message says no code was found in the image.
+11. The decoded text of the most recent scan can also be acted on by keyboard: the Scan, Copy, Delete and Clear controls are real buttons focusable with Tab and operable with Enter or Space, and any icon-only control carries an aria-label matching its action.
+12. At a phone-sized viewport (about 375px wide) the page fits without horizontal scrolling, with the camera preview, result and history stacked vertically and every control at least 32px tall.
+13. The QR decoding logic (frame grabbing and the jsQR decode over camera frames and image files) lives in its own module under lib/, separate from the page components, and the scan records live in a lib/data query module rather than components calling Dexie directly.
+14. app/identity.ts is updated so the app's name is 'QR Scanner' and its description describes a camera QR reader with a local scan history; the page title matches it.
+
+These are the outcomes this task is judged against.

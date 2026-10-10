@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -17,7 +17,8 @@ import {
 /**
  * A camera preview with its controls and its state in words.
  *
- * Nothing starts on load: the camera opens from the "Open camera" button. While it is on, the
+ * Nothing starts on load: the camera opens from its one open button (labelled `openLabel`,
+ * "Open camera" by default). While it is on, the
  * preview is mirrored for the selfie camera (as people expect), "Take photo" hands the current frame
  * to `onPhoto` as a Blob, and "Stop camera" turns the camera light off. The camera also stops when
  * the component unmounts and when the tab is hidden, and offers to resume when the visitor is back.
@@ -32,6 +33,16 @@ type CameraViewProps = {
   onPhoto?: (photo: Blob) => void;
   /** Passed to `capturePhoto`: type, quality, maxEdge. */
   photoOptions?: PhotoOptions;
+  /** Text for the button that opens the camera. Default `"Open camera"`. */
+  openLabel?: string;
+  /** Hide "Take photo", for flows that only watch the preview. Default false. */
+  hidePhotoButton?: boolean;
+  /**
+   * A ref the caller keeps, filled with the preview's `<video>` once it exists — for reading
+   * frames (a QR scan, a level meter) while the preview runs. Optional; the component keeps its
+   * own ref without it.
+   */
+  videoRef?: RefObject<HTMLVideoElement | null>;
   className?: string;
 };
 
@@ -65,8 +76,9 @@ function isMirrored(stream: MediaStream, requested: CameraFacing): boolean {
   return requested === "user";
 }
 
-export function CameraView({ facing = "user", onPhoto, photoOptions, className }: CameraViewProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+export function CameraView({ facing = "user", onPhoto, photoOptions, openLabel, hidePhotoButton = false, videoRef: externalVideoRef, className }: CameraViewProps) {
+  const previewRef = useRef<HTMLVideoElement>(null);
+  const videoRef = externalVideoRef ?? previewRef;
   const aliveRef = useRef(true);
   const [state, setState] = useState<ViewState>({ kind: "off" });
   const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
@@ -103,7 +115,7 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, className }
       if (video && video.srcObject === stream) video.srcObject = null;
       stopStream(stream);
     };
-  }, [stream]);
+  }, [stream, videoRef]);
 
   async function open(deviceId?: string) {
     setState({ kind: "starting" });
@@ -180,9 +192,11 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, className }
       <div className="flex flex-wrap items-center gap-2">
         {on ? (
           <>
-            <Button type="button" onClick={() => void takePhoto()} disabled={busy}>
-              Take photo
-            </Button>
+            {!hidePhotoButton && (
+              <Button type="button" onClick={() => void takePhoto()} disabled={busy}>
+                Take photo
+              </Button>
+            )}
             {cameras.length > 1 && (
               <Button type="button" variant="outline" onClick={() => void switchCamera()}>
                 Switch camera
@@ -194,7 +208,7 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, className }
           </>
         ) : (
           <Button type="button" onClick={() => void open()} disabled={state.kind === "starting"}>
-            {state.kind === "paused" ? "Resume camera" : "Open camera"}
+            {openLabel ?? (state.kind === "paused" ? "Resume camera" : "Open camera")}
           </Button>
         )}
       </div>
