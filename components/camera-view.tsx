@@ -17,7 +17,8 @@ import {
 /**
  * A camera preview with its controls and its state in words.
  *
- * Nothing starts on load: the camera opens from the "Open camera" button. While it is on, the
+ * Nothing starts on load: the camera opens from its one open button (labelled `openLabel`,
+ * "Open camera" by default). While it is on, the
  * preview is mirrored for the selfie camera (as people expect), "Take photo" hands the current frame
  * to `onPhoto` as a Blob, and "Stop camera" turns the camera light off. The camera also stops when
  * the component unmounts and when the tab is hidden, and offers to resume when the visitor is back.

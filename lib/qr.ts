@@ -48,8 +48,9 @@ function decodeScaled(
   source: CanvasImageSource,
   sourceWidth: number,
   sourceHeight: number,
+  maxEdge: number,
 ): string | null {
-  const scale = Math.min(1, MAX_DECODE_EDGE / Math.max(sourceWidth, sourceHeight));
+  const scale = Math.min(1, maxEdge / Math.max(sourceWidth, sourceHeight));
   const width = Math.max(1, Math.round(sourceWidth * scale));
   const height = Math.max(1, Math.round(sourceHeight * scale));
   const ctx = scratchContext(width, height);
@@ -65,18 +66,23 @@ export function decodeFromVideo(video: HTMLVideoElement): string | null {
   const width = video.videoWidth;
   const height = video.videoHeight;
   if (!width || !height) return null;
-  return decodeScaled(video, width, height);
+  return decodeScaled(video, width, height, MAX_DECODE_EDGE);
 }
 
 /**
  * A still image (a photo or screenshot of a QR code), decoded once. Returns null when the image
  * opened but holds no code; throws when the image itself cannot be opened.
+ *
+ * A photo can hold a small code: the first pass scales it down as the camera frames are, and a
+ * miss retries at double the resolution before giving up.
  */
 export async function decodeImageFile(file: Blob): Promise<string | null> {
   if (typeof createImageBitmap === "function") {
     const bitmap = await createImageBitmap(file);
     try {
-      return decodeScaled(bitmap, bitmap.width, bitmap.height);
+      const first = decodeScaled(bitmap, bitmap.width, bitmap.height, MAX_DECODE_EDGE);
+      if (first || Math.max(bitmap.width, bitmap.height) <= MAX_DECODE_EDGE) return first;
+      return decodeScaled(bitmap, bitmap.width, bitmap.height, MAX_DECODE_EDGE * 2);
     } finally {
       bitmap.close();
     }
@@ -92,7 +98,9 @@ export async function decodeImageFile(file: Blob): Promise<string | null> {
       image.src = url;
     });
     if (!image.naturalWidth || !image.naturalHeight) return null;
-    return decodeScaled(image, image.naturalWidth, image.naturalHeight);
+    const first = decodeScaled(image, image.naturalWidth, image.naturalHeight, MAX_DECODE_EDGE);
+    if (first || Math.max(image.naturalWidth, image.naturalHeight) <= MAX_DECODE_EDGE) return first;
+    return decodeScaled(image, image.naturalWidth, image.naturalHeight, MAX_DECODE_EDGE * 2);
   } finally {
     URL.revokeObjectURL(url);
   }
