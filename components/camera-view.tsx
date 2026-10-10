@@ -191,9 +191,11 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, openLabel, 
       <div className="flex flex-wrap items-center gap-2">
         {on ? (
           <>
-            <Button type="button" onClick={() => void takePhoto()} disabled={busy}>
-              Take photo
-            </Button>
+            {!hidePhotoButton && (
+              <Button type="button" onClick={() => void takePhoto()} disabled={busy}>
+                Take photo
+              </Button>
+            )}
             {cameras.length > 1 && (
               <Button type="button" variant="outline" onClick={() => void switchCamera()}>
                 Switch camera
@@ -205,7 +207,7 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, openLabel, 
           </>
         ) : (
           <Button type="button" onClick={() => void open()} disabled={state.kind === "starting"}>
-            {state.kind === "paused" ? "Resume camera" : "Open camera"}
+            {openLabel ?? (state.kind === "paused" ? "Resume camera" : "Open camera")}
           </Button>
         )}
       </div>
