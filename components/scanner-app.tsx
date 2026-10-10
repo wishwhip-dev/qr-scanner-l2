@@ -139,7 +139,7 @@ export function ScannerApp() {
         <h2 id="result-heading" className="text-lg font-semibold tracking-tight">
           Decoded text
         </h2>
-        <ScanResult result={result} captureCount={captureCount} />
+        <ScanResult result={result} lit={lit} />
       </section>
 
       <ScanHistory />

@@ -114,7 +114,7 @@ export function CameraView({ facing = "user", onPhoto, photoOptions, openLabel, 
       if (video && video.srcObject === stream) video.srcObject = null;
       stopStream(stream);
     };
-  }, [stream]);
+  }, [stream, videoRef]);
 
   async function open(deviceId?: string) {
     setState({ kind: "starting" });
