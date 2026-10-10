@@ -26,20 +26,24 @@ import { toast } from "sonner";
 export function ScannerApp() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const lastRead = useRef<string | null>(null);
+  const litTimer = useRef<number | undefined>(undefined);
   const [result, setResult] = useState<ScanResultData | null>(null);
-  const [captureCount, setCaptureCount] = useState(0);
+  const [lit, setLit] = useState(false);
   const [scanProblem, setScanProblem] = useState<string | null>(null);
   const [imageState, setImageState] = useState<{ busy: boolean; message: string | null }>({ busy: false, message: null });
   const storageStatus = useStorageStatus(database);
   const transfer = useDatabaseTransfer(database);
 
-  const handleDecoded = useEffectEvent((text: string, source: "camera" | "image") => {
+  const handleDecoded = useCallback((text: string, source: "camera" | "image") => {
     if (source === "camera") {
       if (text === lastRead.current) return; // the same code is still in view
       lastRead.current = text;
     }
     setResult({ text, at: Date.now(), source });
-    setCaptureCount((count) => count + 1);
+    // The sound-free confirmation: the result card lights up, then quiets down.
+    setLit(true);
+    window.clearTimeout(litTimer.current);
+    litTimer.current = window.setTimeout(() => setLit(false), 1800);
     // A write that fails is told about; a write skipped by the data layer (the newest scan
     // already holds exactly this text) needs no word.
     void addScan(text).then(
@@ -47,7 +51,10 @@ export function ScannerApp() {
       (error: unknown) =>
         toast.error(`Could not save the scan: ${error instanceof Error ? error.message : "unknown error"}.`),
     );
-  });
+  }, []);
+
+  // Stop the "captured" light when the scanner leaves the page.
+  useEffect(() => () => window.clearTimeout(litTimer.current), []);
 
   // The scan loop: one frame every 300 ms while the preview has a picture. The interval runs
   // whether or not the camera is open — with no video there is one cheap guard check per tick.
@@ -65,7 +72,7 @@ export function ScannerApp() {
     };
     const timer = window.setInterval(tick, 300);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [handleDecoded]);
 
   const decodeFile = async (file: File) => {
     setImageState({ busy: true, message: null });
