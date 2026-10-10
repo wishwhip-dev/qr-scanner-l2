@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { database, type Scan } from "@/lib/db";
-import { addScan, clearScans, deleteScan, listScans, restoreScan, SCAN_HISTORY_LIMIT } from "@/lib/data/scans";
+import { clearScans, deleteScan, listScans, restoreScan, SCAN_HISTORY_LIMIT } from "@/lib/data/scans";
 import { useStoredQuery } from "@/lib/storage/react";
 import { toast } from "sonner";
 
