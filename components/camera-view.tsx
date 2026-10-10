@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -32,6 +32,16 @@ type CameraViewProps = {
   onPhoto?: (photo: Blob) => void;
   /** Passed to `capturePhoto`: type, quality, maxEdge. */
   photoOptions?: PhotoOptions;
+  /** Text for the button that opens the camera. Default `"Open camera"`. */
+  openLabel?: string;
+  /** Hide "Take photo", for flows that only watch the preview. Default false. */
+  hidePhotoButton?: boolean;
+  /**
+   * A ref the caller keeps, filled with the preview's `<video>` once it exists — for reading
+   * frames (a QR scan, a level meter) while the preview runs. Optional; the component keeps its
+   * own ref without it.
+   */
+  videoRef?: RefObject<HTMLVideoElement | null>;
   className?: string;
 };
 
