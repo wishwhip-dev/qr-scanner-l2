@@ -84,6 +84,13 @@ export function ScannerApp() {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-4 pb-16 pt-8 sm:px-6">
+      <header className="flex flex-col gap-1">
+        <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">Scan a QR code</h1>
+        <p className="text-muted-foreground">
+          Point the camera at a code, or decode one from a photo. What you scan is kept in a history on this device — nothing leaves it.
+        </p>
+      </header>
+
       {storageStatus === "memory" && (
         <p role="status" className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm">
           This browser will not keep your data: the history lasts only until this tab closes. Export it to a file below to keep a copy.
