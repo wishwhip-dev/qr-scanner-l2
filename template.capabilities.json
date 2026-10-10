@@ -1,0 +1,140 @@
+{
+  "manifestVersion": 1,
+  "template": "webapp-nextjs",
+  "capabilities": {
+    "auth": {
+      "kind": "none"
+    },
+    "backend": {
+      "kind": "server-runtime"
+    },
+    "instructions": {
+      "briefing": "AGENTS.md",
+      "docs": [
+        "docs/components.md",
+        "docs/storage.md",
+        "docs/charts.md",
+        "docs/notifications.md",
+        "docs/files.md",
+        "docs/camera.md",
+        "docs/audio.md",
+        "docs/share.md",
+        "docs/ai.md",
+        "docs/sync.md",
+        "docs/visits.md"
+      ]
+    },
+    "storage": {
+      "kind": "browser-indexeddb",
+      "shared": false,
+      "crossDevice": false,
+      "exportImport": true,
+      "library": "dexie",
+      "packageVersion": "0.3.0",
+      "modules": [
+        "lib/storage",
+        "lib/db.ts",
+        "lib/data"
+      ],
+      "docs": "docs/storage.md"
+    },
+    "charts": {
+      "kind": "recharts",
+      "component": "components/ui/chart.tsx",
+      "docs": "docs/charts.md"
+    },
+    "input": {
+      "camera": true,
+      "files": true,
+      "microphone": true
+    },
+    "share": true,
+    "ai": true,
+    "sync": true
+  },
+  "stamp": {
+    "recipe": "webapp-nextjs",
+    "modules": [
+      "webapp-shell",
+      "base",
+      "ui-kit",
+      "storage-browser",
+      "charts",
+      "notifications",
+      "files",
+      "camera",
+      "audio",
+      "share",
+      "ai",
+      "sync",
+      "visits"
+    ],
+    "supervisorRevision": "templates-2d64ba278fc92be5",
+    "storageVersion": "0.3.0",
+    "files": {
+      ".gitignore": "73ec7442d8e321919c3d0eb5a2fc8f11fbcbf1096ec76b3f9f5e54f6a19a198a",
+      "AGENTS.md": "1793f72b6a7a2ba8de37d161576d89c94954c7704ad010c7fbec094c09f598c9",
+      "app/api/ai/route.ts": "77fb08540ea6944e52a51e5ae02b0a965f454c3b50c8f5bc1d07306f2e783d50",
+      "app/apple-icon.tsx": "288b2750dbcb27e92c03478df3de7ae13a95af454229846df69634e69cd84a7c",
+      "app/globals.css": "c845d8982512d8745dcc5cf594d72885a1c7eeac98d35e407e3f81039ff80d60",
+      "app/icon.tsx": "d407a1351b0121694469fa25a51b850895e10246d717da01f11617f96b19ed41",
+      "app/identity.ts": "aff51c76b9963b936d878e55e0d18547be428e99a4caca1cff015a5f3743221e",
+      "app/layout.tsx": "37ceace6a233c55e54004f11d76c686e68ea1efe46221fb395ebcf511c657e1b",
+      "app/manifest.ts": "13a546550cab9b4bc9ee8407a8ef796f2ffdfee64823fc2a07bda703ad01b4de",
+      "app/opengraph-image.tsx": "f8aed39ac4959bffef19e19d277fe06ea5e80ed2e52070c926e3a35a955044e1",
+      "app/page.tsx": "14666779505cf9796a352409b6ab771605205524cd2fa105c35d5b3310faf2e3",
+      "components.json": "10bccedf3ec33c1b5194a369b8acc993ac17acf53881482fa2327889d9dbb51b",
+      "components/camera-view.tsx": "c12999419676ef906745aa4c29c02acd13ddb0b324c89dafe33ae81810308585",
+      "components/file-drop.tsx": "717709817c538f869e9d154745f3496c92c1a69ce21d218df1e222cdad893309",
+      "components/move-panel.tsx": "bdde8d604f5af24b68b1519e0ed9c9237c277c2ffb7a0a642501df97f2cfcd13",
+      "components/share-button.tsx": "0fdc3146addfb2c2cf0ed5ca600b55fb1d75fb7605a28a728b9e7199cad3ae16",
+      "components/ui/alert.tsx": "5950ac01377e7eedc94b00eb3fee678745e4cc1a72b5343867f0733d07db6660",
+      "components/ui/badge.tsx": "dab689d836ad3292b41e7f4986b4e68e5d45c6903e4aeaae8972a82d4aebec29",
+      "components/ui/button.tsx": "c2b999a96781e6c932632bd089095368e973bf5602e1b1a62156b7d2b43f1e84",
+      "components/ui/card.tsx": "525c4bb2c051987be64df0e92e1d90174912b219bf541e24ffbc4a3406de49e8",
+      "components/ui/chart.tsx": "2d7c4634b85fbd0bbe0c4636d0d333e02398fa49ad70fd24eece5853dc3975cc",
+      "components/ui/checkbox.tsx": "c9e19d480a43172f9504ac9b22f4a9c149de1d916162f24c62395533b7be19f6",
+      "components/ui/dialog.tsx": "8285c62a3b8d97e8c6f4fcc54c0516871afe7d72c72b5f432533cc6dd591b12e",
+      "components/ui/input.tsx": "6299a6a387dc55e528aec4342deaea0b83f1ea3a365c135a31a18ee55334f441",
+      "components/ui/label.tsx": "2eac8fbb04002c42b0fbc4062d20d131e421796eaf65c37d2049e29e42ecbc5a",
+      "components/ui/select.tsx": "3d93ae07a8f3fe121ba60f4439e26bd7859f247eb8bfcafcf4b4a8a069888eec",
+      "components/ui/separator.tsx": "995c54f1c5c688f712a675fe35d55bcada2b31dba561dcc71553a1ad601e59ec",
+      "components/ui/skeleton.tsx": "87608e7cc815ad3d88e0b9de6c402bb37b58ea1b38636cf69709da1baff6e334",
+      "components/ui/table.tsx": "a4a6972c2d47d465d7f02c1dc4a6cbfeda7a97e46479c1b0cebdaf26bf9b497a",
+      "components/ui/tabs.tsx": "2d8e74c6f76bc24c60d247e564fa881361edd97561edfcca506149f64d32f7d7",
+      "components/ui/textarea.tsx": "ec7c92aaed80f6923a7caa4bfe4eead395b50a7001504fd7fbb0b9381804dae9",
+      "components/visit-beacon.tsx": "97937b7fff1cad387b5ff2a0066195f090b90063638715fc86f4eb0c656a3156",
+      "docs/ai.md": "3dd10480f7ae76e7fdcfc1e33b0b98a9cc31a966776f83aee36b612300e955a9",
+      "docs/audio.md": "0a21ee2e0cb7d6e25b98ad16464aedb7ddf3a7a6acb94a27d3ba146057478a9a",
+      "docs/camera.md": "af504fd634c7d4f091562364e6cbe4afc522cf9afbb368a1759fceceafdb5c66",
+      "docs/charts.md": "b5c62fa20c8530536ac5c9df661af5bf4b272dae25d5a2c605b809d399d46f04",
+      "docs/components.md": "db741d3a63210dc3a667a1252cad666c5f75447006c4c9134b3604734b42ae65",
+      "docs/files.md": "10441627520a2bcd1767bf6802a637a0ed8cf9e18b5146f2fc311f0a72a094cc",
+      "docs/notifications.md": "db1fa3c690a0c35332bcc15f274f08bc17081a8916b3512218927d1e49146f3d",
+      "docs/share.md": "5245ea01a04f3e60165f5984afe72496c1f47972bfb5107f74f7df0c1bb35c87",
+      "docs/storage.md": "cf9de4a0d03b7666584fcd5c67c2c9563450a847116402a2d64dd119d0578e6b",
+      "docs/sync.md": "3ca251c2e04cb3c55df9369df4029fe5d3e08fccdc6c5c24d7672381193d97a0",
+      "docs/visits.md": "4ba8f1820019b88e50ed9a48db919fd0c81ebb3a63de6c5ce87cfd93044cb6f3",
+      "eslint.config.mjs": "7bad4b29e9d3961b516048dba7c36b3d89e4d1d4218903070673f075bdc59595",
+      "lib/ai.ts": "5401ea0ac096b4c390d98f5c5814dab1c340de8e8c3cb933e01637958be0f8a7",
+      "lib/audio.ts": "8eab63b5266bca9875b5398e85c786cd98b62c9cde766ff7de7c804455ed5eb9",
+      "lib/camera.ts": "829e6d548346e2c7e707b50207ec458c4d8666b4a781c34de1c1f700a5c1b222",
+      "lib/db.ts": "ba028216e720203e3d921d56db2cb6fb6fffdbdc0f4d03c7ce4c839dc2719720",
+      "lib/files.ts": "dedcbe56050ef5fff59785cb5f04d45ecbaedbe284b118a9f0bbb9aec240c5fd",
+      "lib/share.ts": "3dfbb03b3790d1438f6d8f7e1792a6210b9da8476abed33c27049e7f9dc674d4",
+      "lib/storage/VERSION": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0",
+      "lib/storage/database.ts": "3a417b169bddf37d73f18d889098cc0d3353a396d73f4fed1cb57685616f6e5d",
+      "lib/storage/index.ts": "7a7dfddc89f586cdb9c271273dc454a8c1224febb608d211278dd90da45a40d0",
+      "lib/storage/react.ts": "d68012dfef78c604f55a44a51b973e10183c347525c9ef4a1f4dd51f62f8d94b",
+      "lib/storage/seed.ts": "01e0057e7cbd7513bd793fb14bc908cd903fa72d780e49b3efcd9c2297a8f742",
+      "lib/storage/transfer.ts": "078a813f53cd1f263942198fbab384ee08b7c4a486ded8f9ec0ae7cb72859ef8",
+      "lib/sync.ts": "49d1ce785a110c08f9e7c139ee8ea2817ab66fc1124a481cd84bebe724485607",
+      "lib/utils.ts": "d1f1e0d62cb8d8d1e04c26e14de842d8a151f75812d81b046c65b5d1fe8e4b27",
+      "next-env.d.ts": "100c63b8ff3896173cbe3c2ec87a358a03599450842d816e0d70d8ee3de1b4ea",
+      "next.config.ts": "ab4c61f6ee100ae43610a18512f1ebcec842bb2405431e1009266173f21cf772",
+      "postcss.config.mjs": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde",
+      "tsconfig.json": "b7e1292326a04f58f41681c2109e535fcde5ee1573b07a8f123071c9e87457ba",
+      "types/webgpu.d.ts": "c88475e45de52a5d13a3ccd33df4f1af9d871633084711485f2269284c39cd00"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+out
+build
+.turbo
+
+# Incremental build cache. Rewritten by every `tsc`/`next build`, so a task that runs
+# the build commits it and the next task gets a diff nobody wrote.
+*.tsbuildinfo
+
+# Secrets. The negation must come after the pattern it exempts, otherwise a later
+# .env* rule silently re-ignores the committed template.
+.env*
+!.env.example
+
+# Key material and credentials. Never belong in an application repository.
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.ppk
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+.ssh/
+.aws/
+**/.docker/config.json
+.pypirc
+service-account*.json
+
+# Logs
+*.log
+
+# Test and tool output
+coverage
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/
+
+# Deploy provider state
+.vercel
