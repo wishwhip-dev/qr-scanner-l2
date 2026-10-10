@@ -19,8 +19,8 @@ import { toast } from "sonner";
  *   if that fails too the person is told rather than left to assume.
  * - Share hands the decoded text to the device's share sheet — as a link when it is one, as a
  *   share card otherwise — and copies or saves where there is no sheet.
- * - `captureCount` ticks up on every new capture; the card lights up for a moment as the
- *   sound-free confirmation that a scan was taken.
+ * - `lit` is true for a moment after each new capture; the card lights up as the sound-free
+ *   confirmation that a scan was taken.
  */
 
 export type ScanResultData = {

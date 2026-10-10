@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CameraView } from "@/components/camera-view";
 import { FileDrop } from "@/components/file-drop";
 import { ScanHistory } from "@/components/scan-history";
