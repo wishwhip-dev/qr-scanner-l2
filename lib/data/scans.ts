@@ -8,6 +8,7 @@
  * a different code is scanned.
  */
 import { database, newId, type Scan } from "@/lib/db";
+import type { Table } from "dexie";
 
 /** How many scans the history keeps. */
 export const SCAN_HISTORY_LIMIT = 20;
@@ -33,11 +34,22 @@ export async function addScan(text: string, scannedAt = Date.now()): Promise<Sca
 
   const scan: Scan = { id: newId(), text: trimmed, scannedAt };
   await table.put(scan);
-  // The table is tiny (at most the cap plus this one), so trimming reads it whole.
+  await trim(table);
+  return scan;
+}
+
+/** Keep the table at the cap by dropping the oldest rows past it. */
+async function trim(table: Table<Scan, string>): Promise<void> {
   const all = await table.orderBy("scannedAt").toArray();
   const extra = all.slice(0, Math.max(0, all.length - SCAN_HISTORY_LIMIT)).map((scan) => scan.id);
   if (extra.length) await table.bulkDelete(extra);
-  return scan;
+}
+
+/** Put a known scan back — the undo of a delete, which must not be blocked by the dedupe. */
+export async function restoreScan(scan: Scan): Promise<void> {
+  const table = await scans();
+  await table.put(scan);
+  await trim(table);
 }
 
 /** Remove one scan. The id comes from a row the page is already showing. */
