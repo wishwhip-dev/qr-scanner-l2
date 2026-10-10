@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ShareButton } from "@/components/share-button";
 import { Button } from "@/components/ui/button";
 import { identity } from "@/app/identity";
@@ -67,17 +67,8 @@ async function writeClipboard(text: string): Promise<void> {
   }
 }
 
-export function ScanResult({ result, captureCount }: { result: ScanResultData | null; captureCount: number }) {
-  const [lit, setLit] = useState(false);
+export function ScanResult({ result, lit }: { result: ScanResultData | null; lit: boolean }) {
   const [copied, setCopied] = useState(false);
-
-  // The visual "captured" confirmation: lit while the newest capture is fresh, then quiet again.
-  useEffect(() => {
-    if (!captureCount) return;
-    setLit(true);
-    const timer = window.setTimeout(() => setLit(false), 1800);
-    return () => window.clearTimeout(timer);
-  }, [captureCount]);
 
   if (!result) {
     return (
