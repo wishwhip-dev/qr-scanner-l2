@@ -145,7 +145,7 @@ export function ScanResult({ result, lit }: { result: ScanResultData | null; lit
       </p>
 
       <div className="mt-3 flex flex-wrap items-start gap-2">
-        <Button type="button" onClick={() => void copy()} aria-label={`Copy scanned text${url ? " (the link itself, not the page it opens)" : ""}`}>
+        <Button type="button" onClick={() => void copy()}>
           {copied ? "Copied" : "Copy"}
         </Button>
         {share}
